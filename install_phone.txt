@@ -1,0 +1,30 @@
+   66  cd atp-dev/
+   67  vim
+   68  vim ~/.vimrc
+   69  vim
+   70  vim ~/.vimrc
+   71  vim
+   72  vim ~/.vimrc
+   73  vim
+   74  vim ~/.vimrc
+   75  vim
+   76  vim ~/.vimrc
+   77  vim
+   78  sudo apt-get remove vim-youcompleteme
+   79  sudo apt-get remove vim-add-addon-manager
+   80  cd ~/.vim
+   81  ls
+   82  cd bundle/
+   83  ls
+   84  cd ..
+   85  cd autoload
+   86  ls
+   87  cd ..
+   88  ls
+   89  cd bundle
+   90  ls
+   91  cp actors.cfg.sample actors.cfg
+   92  vim actors.cfg
+   93  ./Install.sh 
+   94  ifconfig
+   95  ./Install.sh 
