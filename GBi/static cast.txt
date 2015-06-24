@@ -1,0 +1,6 @@
+        Session* session = SessionManager::GetInstance()->getActiveSessionByAccount(static_cast<Account*>(user));
+        double money = user->money() ;
+        if(session != NULL && session->Status() == SessionStatus_Active)
+        {
+            money -= session->TimePriceRevised();
+        }

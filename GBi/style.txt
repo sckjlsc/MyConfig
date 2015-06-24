@@ -1,0 +1,120 @@
+#include "Utils.h"
+Utils::formatDisplayMoney(rate);
+
+#include "OfflineSessionManager.h"
+OfflineSessionManager::GetInstance()->currentOfflineSession();
+
+QList<UserAccount*> filterUser(UserAccount_Criteria criteria, const QString& searchWord);
+
+	   int Port() const { return m_port; }
+		void SetPort(int val) { m_port = val; }
+	   
+		QString userName() const { return m_userName; }
+		void SetUserName(const QString& val) { m_userName = val; }
+
+		CSMVersionType Version() const { return m_version; }
+		void SetVersion(CSMVersionType val) { m_version = val; }
+		
+		
+		
+UserAccount* UserAccountManager::addUser( const QString& name, const QString& firstName, const QString& middleName, 
+                                         const QString& lastName, const QString& pwd, bool needHash, int groupId, 
+                                         bool locked, const QDate& dueDate, double money, int freeMinutes, int timeControlId )
+{
+    if (AccountManager::GetInstance()->nameExists(name))
+    {
+        QString msg = tr("The user with same name already exists");
+        QMessageBox::critical(NULL, tr("error"), msg);
+        return NULL;
+    }
+
+    QString pwdHash = pwd;
+    if (needHash == true)
+    {
+        pwdHash = Utils::hashUserData(name, pwd, HashType_GCB_MD5);
+    }
+    // don't add this to the DB's user list or emit signal (as we're waiting for the user detail)
+    UserAccount* user = m_userDB->addUser(name, firstName, middleName, lastName, 
+        pwdHash, HashType_GCB_MD5, groupId, locked, dueDate, 
+        /*builtin*/false, money, freeMinutes, timeControlId, 
+        /*usedAmount*/0, /*topupAmount*/0, /*debtLimit*/0, /*debt*/0);
+    UserGroup* group = UserGroupManager::GetInstance()->getGroupById(groupId);
+    user->setGroup(group);
+    
+    return user;
+}
+
+
+
+
+        UserAccount* userAcc = UserAccountManager::GetInstance()->addUser(userName, firstName, middleName, lastName,
+            password, /*need hash*/true, userGroupId, locked, dueDate, /*money*/0, /*freeMins*/0, timeControlProfileId);
+        ret = (userAcc != NULL);
+
+        if (ret == true)
+        {
+            UserAccountDetails* accDetail = 
+           UserAccountManager::GetInstance()->addAccDetail(userAcc->id(), date, birthday, phoneNumber, email,
+            address, city, state, nric, note, /*transferOut*/0, /*transIn*/0, /*total free minutes*/0, /*total free money*/0);
+				 
+				 
+				 
+class UserAccount;
+enum LoginResult;
+class UserAccountDB;
+class UserAccountDetailDB;
+
+class UserAccountDetails;
+class UserGroup;
+class Account;
+enum UserGroupType;
+enum PwdHashType;
+enum ChangeAccPwdResult;
+class Session;
+class UserAccountManager : public QObject, public Singleton_T<UserAccountManager>
+
+
+            if(type == "insert")
+            {
+                sqlQueryStr = "INSERT INTO " + name + queryP1 + " VALUES " + queryP2;
+            }
+            else if(type == "update")
+            {
+                //"UPDATE names SET firstname = 'Nisse', lastname = 'Svensson' WHERE id = "
+
+            }
+            else if(type == "delete")
+            {
+                //"DELETE FROM names WHERE id = "
+
+            }
+
+
+    QSqlDatabase db = DBManager::mainDB();
+    QSqlQuery query(db);
+
+    UserAccount* existingUser = getUserAccountByName(name);
+    
+    if (existingUser != NULL &&
+        existingUser->enabled())
+    {
+        QMessageBox::critical(0, tr("Add User failed"), tr("There is already a User with same name"), QMessageBox::Ok);
+        return NULL;
+    }
+
+    if (!query.prepare(QString("insert into %1 (name, firstName, middleName, lastName, \
+                               passwordHash, pwdHashType, groupid, \
+                               locked, dueDate, builtin, money, freeMinutes, \
+                               timeControl, usedAmount, topupAmount, debtLimit, debt, enabled) \
+                               values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)").arg(USER_TABLE)))
+    {
+        LOG_ERROR << qPrintable(query.lastError().text());
+        return NULL;
+    }
+
+    query.addBindValue(name);
+    query.addBindValue(firstName);
+    query.addBindValue(middleName);
+
+
+QString queryStr = QString("update %1 set enabled = 0 where id = ?").arg(USER_TABLE);

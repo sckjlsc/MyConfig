@@ -1,0 +1,13 @@
+第一步：下载boost，我下载的方法是从http://www.boost.org/上找最新的下载。名字叫boost_1_50_0.7z。
+第二步：在D盘（我C盘空间不大，准备出至少10G的空间吧）创建一个目录boost，拷贝进去并解压到当前文件夹。
+第三步：开始->程序->Microsoft Visual Studio 2010->Visual Studio Tools->Visual Studio 命令提示(2010)，打开一个控制台。
+第四步：cd d:\boost\boost_1_50_0
+第五步：bootstrap.bat
+第六步：bjam.exe --toolset=msvc-10.0 --build-type=complete。等待执行完成。
+测试：
+第一步：创建一个工程，附加包含目录为：d:\boost\boost_1_50_0；附加库目录为：d:\boost\boost_1_50_0\stage\lib。
+第二步：编写代码测试。
+
+
+
+bjam stage --toolset=msvc-9.0 --without-graph --without-graph_parallel --without-math --without-mpi --without-python --without-serialization --without-wave --stagedir="E:\SDK\boost\bin\vc9" link=static runtime-link=shared runtime-link=static threading=multi debug release

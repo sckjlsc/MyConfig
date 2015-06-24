@@ -1,0 +1,3 @@
+C:\Program Files (x86)\Microsoft Visual Studio 9.0\VC\VCProjectDefaults º”»Î protobuf.rules
+
+protoc -I=./ --cpp_out=./ people.proto

@@ -1,0 +1,200 @@
+1、下载并安装所需文件：
+http://www.gnustep.org/experience/Windows.html
+下载以下所有文件：
+
+Package	 Required?	 Stable	 Unstable	 Notes
+GNUstep MSYS System	 Required	0.30.0	 -	 MSYS/MinGW System
+GNUstep Core	 Required	0.30.0	0.31.0	 GNUstep Core
+GNUstep Devel	 Optional	1.4.0	 -	 Developer Tools
+GNUstep Cairo	 Optional	 -	0.31.0	 Cairo Backend
+下载后在文件夹中的安装包：
+
+
+
+2、安装文件到一个统一目录：
+
+比如我把所有安装在：
+
+D:\program\GNUstep
+
+安装好后目录里应该有
+
+D:\program\GNUstep\msys\1.0\msys.bat
+创建桌面快捷方式
+
+
+3、添加源代码和makefile文件：
+
+D:\program\GNUstep\msys\1.0\home\Administrator\
+
+创建hello.m文件：
+
+[cpp] view plaincopy
+#import <Foundation/Foundation.h>  
+  
+int main (int argc, const char * argv[])  
+{  
+    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];  
+    NSLog (@"hello world");  
+        [pool drain];  
+        return 0;  
+}  
+
+4、编译运行helloWorld：
+$ cd /home/Administrator
+
+$ gcc `gnustep-config --objc-flags` -L /GNUstep/System/Library/Libraries hello.m -o hello -lgnustep-base -lobjc
+$ ./hello
+
+输出如下：
+
+
+
+5、为了似的编译更简单，引入makefile工具：
+
+
+创建GNUmakefile文件：
+
+[plain] view plaincopy
+include $(GNUSTEP_MAKEFILES)/common.make  
+TOOL_NAME = hello   
+hello_OBJC_FILES = hello.m   
+include $(GNUSTEP_MAKEFILES)/tool.make  
+
+$ make
+
+
+产生了错误：
+
+GNUmakefile:1: /common.make: No such file or directory
+GNUmakefile:6: /tool.make: No such file or directory
+make: *** No rule to make target `/tool.make'.  Stop.
+
+$ echo $(GNUSTEP_MAKEFILES)
+
+输出空，所以问题是环境变量未找到问题。
+
+
+6、解决目录找不到的问题，并编译
+
+安装目录：D:\program\GNUstep\msys\1.0\home\Administrator
+查找目录：D:\program\GNUstep\GNUstep\System\Library\Makefiles
+
+所以$(GNUSTEP_MAKEFILES) = /../../GNUstep/System/Library/Makefiles
+
+
+修改GNUmakefile文件为：
+
+[plain] view plaincopy
+GNUSTEP_MAKEFILES = /../../GNUstep/System/Library/Makefiles  
+include $(GNUSTEP_MAKEFILES)/common.make  
+TOOL_NAME = hello   
+hello_OBJC_FILES = hello.m   
+include $(GNUSTEP_MAKEFILES)/tool.make  
+
+$ make
+
+
+
+This is gnustep-make 2.6.2. Type 'make print-gnustep-make-help' for help.
+GNUmakefile:5: /GNUstep/System/Library/Makefiles/tool.maek: No such file or directory
+make: *** No rule to make target `/GNUstep/System/Library/Makefiles/tool.maek`.
+Stop.
+如果出现以上信息，则说明查找目录不对，为什么呢？因为使用的磁盘格式为FAT32，应当将GNUstep卸载重新安装在NTFS格式的磁盘上：
+
+
+
+正确执行GNUmakefile
+
+$ ls
+
+你会看到多生成了一个目录叫obj
+
+$ ./obj/hello
+
+> 2013-03-04 14:38:17.435 hello[6208] hello world
+
+
+
+
+OK，恭喜你大功告成！
+
+
+
+
+-更新：2013-3-22 18:15:05
+
+
+如果是多个.h和.m文件被引用，那就变成了一个工程，对于一个工程来说，写单条的编译语句就不再方便了，这时GNUmakefile就有用武之地了：
+
+如果main函数所在的文件叫main.m
+
+main.m当中又通过 #import "test1.h" 引用了一个类，
+
+类的文件结构是test1.h test1.m，并且和main.m放在同一目录下
+
+
+修改GNUmakefile内容如下：
+
+[plain] view plaincopy
+GNUSTEP_MAKEFILES = /../../GNUstep/System/Library/Makefiles  
+  
+include $(GNUSTEP_MAKEFILES)/common.make  
+  
+# 编译生成的目标  
+TOOL_NAME = main  
+  
+# 头文件  
+main_HEARDER_FILES = test1.h  
+  
+# 源文件  
+main_OBJC_FILES = main.m test1.m  
+# main_OBJC_FILES = $(mycar_HEARDER_FILES:.h=.m) main.m  
+  
+include $(GNUSTEP_MAKEFILES)/tool.make  
+
+$ make
+
+
+再次ok ~
+
+
+-更新：2013-3-22 19:52:06
+
+给MingW添加中文支持：
+
+
+(添加中文的显示)
+
+GNUstep\msys\1.0\etc\profile  在末尾添加如下几行：
+
+[plain] view plaincopy
+#export PS1='[\u@msys \W]$ '  
+export PS2='> '  
+export PS4='+ '  
+export LANG=en  
+   
+alias l='/bin/ls --show-control-chars --color=tty'  
+alias la='/bin/ls -aF --show-control-chars --color=tty'  
+alias ll='/bin/ls -alF --show-control-chars --color=tty'  
+alias ls='/bin/ls --show-control-chars -F --color=tty'  
+
+(添加中文的输入)
+
+GNUstep\msys\1.0\etc\inputrc.default  对应部分替换为：
+
+[plain] view plaincopy
+# disable/enable 8bit input  
+set meta-flag on  
+set input-meta on  
+set output-meta on  
+set convert-meta off  
+
+(添加中文的输入)
+GNUstep\msys\1.0\home\Administrator\.inputrc  对应部分替换为：
+[plain] view plaincopy
+# disable/enable 8bit input  
+set meta-flag on  
+set input-meta on  
+set output-meta on  
+set convert-meta off 

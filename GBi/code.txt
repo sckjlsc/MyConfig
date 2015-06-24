@@ -1,0 +1,83 @@
+
+// supported cmd line: 
+// -help
+// -file <fileNameWithoutExt> 
+// -mode INC/UPD 
+// -branch D/R/I/P
+bool _parseCmdLine(
+                   int argc, char *argv[],
+                   QString &fileNameBase, VerGenMode &genMode, QString &branch)
+{
+    if (argc < PARAM_NUM)
+    {
+        cout << "wrong argument number. expected: " << PARAM_NUM;
+        return false;
+    }
+
+    for (int i = 0; i < argc; ++i)
+    {
+        if (stricmp(argv[i], "-help") == 0)
+        {
+            cout << "Supported cmd line params:" << endl
+                << "-help \t print this help message" << endl
+                << "-file <fileNameWithoutExt> \t specify the file to be updated" << endl
+                << "-mode <INC/UPD> \t specify the version generate mode. INC: update revision and increase the ver num by 1; UPD: only update revision" << endl
+                << "-branch Debug/Release/Release_Internal/Release_Public" << endl;
+            continue;
+        }
+
+        if (stricmp(argv[i], "-file") == 0 
+            && (i + 1) < argc )
+        {
+            fileNameBase = QString(argv[i + 1]);
+            ++i;
+            continue;
+        }
+
+        if (stricmp(argv[i], "-mode") == 0 
+            && (i + 1) < argc )
+        {
+            if (stricmp(argv[i + 1], "INC") == 0)
+            {
+                genMode = VerGen_Inc;
+            }
+            else if (stricmp(argv[i + 1], "UPD") == 0)
+            {
+                genMode = VerGen_Upd;
+            }
+            else
+            {
+                cout << "Invalid ver gen mode";
+                return false;
+            }
+            ++i;
+            continue;
+        }
+
+        if (stricmp(argv[i], "-branch") == 0 
+            && (i + 1) < argc )
+        {
+            QString branchRaw = QString(argv[i + 1]);
+            if (QString::compare(branchRaw, "Debug", Qt::CaseInsensitive) == 0)
+            {
+                branch = "D";
+            }
+            else if (QString::compare(branchRaw, "Release", Qt::CaseInsensitive) == 0)
+            {
+                branch = "R";
+            }
+            else if (QString::compare(branchRaw, "Release_Internal", Qt::CaseInsensitive) == 0)
+            {
+                branch = "I";
+            }
+            else if (QString::compare(branchRaw, "Release_Public", Qt::CaseInsensitive) == 0)
+            {
+                branch = "P";
+            }
+            ++i;
+            continue;
+        }
+    }
+
+    return true;
+}

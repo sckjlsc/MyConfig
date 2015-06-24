@@ -1,0 +1,2 @@
+GetCurrentDirectory(MAX_PATH, path);
+PathFileExists(log_path.c_str())
