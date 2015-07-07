@@ -1,0 +1,34 @@
+There isn't a way to set up a remote repository so that everyone who clones it has the default behaviour of git pull changed.
+
+You can, however, set up a server-side hook that checks that no one pushes merge commits (something like this, perhaps).
+
+There are also some configuration options that you may be interested in. All the developers who clone from the remote repository will have to set it themselves manually.
+
+1. Option branch.<name>.rebase
+
+You can configure a local branch to always use --rebase, like this, replacing <name> with a branch name:
+
+git config branch.<name>.rebase
+After running this on master, the master section in .git/config looked like this:
+
+[branch "master"]
+    remote = origin
+    merge = refs/heads/master
+    rebase = true
+2. Option branch.autosetuprebase
+
+Running that previous config command for every Git branch can be a hassle, so you can configure Git to automatically set it up for every new branch:
+
+git config branch.autosetuprebase always
+(You can also specify never, remote, and local, see man git-config for details.)
+
+Without the --global option, the configuration is saved to .git/config, and only the current repository is affected. With --global, the configuration is saved to ~/.gitconfig, and every unconfigured repository is affected.
+
+This option does not affect already existing branches.
+
+3. Option pull.rebase
+
+git config --bool pull.rebase true
+(You can also give it the --global option.)
+
+If this option is true, running git pull is equivalent to git pull --rebase, unless branch.<name>.rebase has been set to false.

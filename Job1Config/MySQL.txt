@@ -1,0 +1,5 @@
+mysql -h 123.30.138.185 -P 6606 -u gbcs_web_admin -p9TVwyVxeNBJjXBA8l2nK
+show variables like 'char%';
+ALTER DATABASE gcafeplus_admin_db_2  CHARACTER SET 'utf8';
+desc auth_user;
+quit

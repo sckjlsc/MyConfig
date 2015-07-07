@@ -1,0 +1,37 @@
+if [ ! -f Django-1.4.tar.gz ] then 	wget https://www.djangoproject.com/download/1.4/tarball/ -O Django-1.4.tar.gz fi
+tar xzvf Django-1.4.tar.gz 
+cd Django-1.4 
+sudo python setup.py install
+
+sudo apt-get install memcached 
+sudo apt-get install nginx
+sudo apt-get install python 
+sudo apt-get install python-setuptools 
+sudo apt-get install python-memcache 
+sudo apt-get install python-m2crypto 
+sudo apt-get install python-recaptcha 
+sudo apt-get install python-flup 
+sudo apt-get install python-dateutil 
+sudo apt-get install python-mysqldb 
+sudo apt-get install python-imaging
+
+cd sites-enabled/
+sudo ln -s ../siavailable/gcafeplus-gbcode.th.garenanow.com ./
+
+cp gcafe-admin.vn.garenanow.com /etc/nginx/sites-available
+ln -s /etc/nginx/sites-available/gcafe-admin.vn.garenanow.com /etc/nginx/sites-enabled/
+sudo nginx -s reload
+
+sudo vi /etc/hosts
+
+apt-get install python-pip
+pip install oauthlib
+pip install requests-oauthlib
+
+easy_install six
+easy_install requests
+经典界面：
+sudo apt-get install gnome-session-fallback
+
+dpkg -i package-name-here.deb
+python setup.py install

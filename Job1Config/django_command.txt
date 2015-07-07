@@ -1,0 +1,33 @@
+python manage.py syncdb
+sudo python manage.py shell
+sudo python manage.py runserver 0.0.0.0:8888
+
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+user=User(username='abc@abc.com',password=make_password('1'),email='abc@abc.com')
+user.save()
+from staff import models
+profile=models.StaffProfile(user=user,user_name='L',user_title='Developer')
+profile.save()
+
+user=User.objects.filter(username="abc@abc.com")
+user1 = user[0]
+
+profile=models.StaffProfile.objects.filter(user=user1)
+profile1=profile[0]
+
+my_auth
+>>> from django.contrib.auth.models import make_password
+>>> make_password('5*e&sg')
+'pbkdf2_sha256$10000$YURbKm88QrH2$2LRmKQDl/Svw/2OTWrwhxBW8scrb5lXDGCNmtJd4dmM='
+username: gbcode
+password: 5*e&sg
+
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
+user=User(username='phunghai.phan@ved.com.vn',password=make_password('1'),email='abc@abc.com')
+user.save()
+from gcafeplus_admin import models
+profile=models.StaffProfile(user=user,user_name='P',user_title='Tec')
+profile.save()
+

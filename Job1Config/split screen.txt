@@ -1,0 +1,14 @@
+Kernel Version
+
+cat /proc/version             # detail about for the kernel image version
+Distribution Version
+
+lsb_release -a
+Partition Sizes
+
+cat /proc/partitions          # for basic sizes
+sudo fdisk -l /dev/<device>   # eg /dev/sda
+
+sudo apt-get remove 3.2.0-67-generic
+sudo update-grub
+sudo reboot
