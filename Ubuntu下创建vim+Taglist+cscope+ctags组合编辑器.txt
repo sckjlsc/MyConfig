@@ -1,0 +1,204 @@
+有人抱怨Linux系统下没有类似于VC之类的方便快捷的编辑器，有人用gedit，有人用vim，但是都不方便而且也没有自动补全之类的方便用户的功能。本文简单介绍使用vim中的几个插件(Ctags、Cscope和TagList）实现一个强大的编辑器，希望可以帮助您学习、使用。
+一、软件安装
+Ubuntu给我们安装软件提供了很大的便利,比如说,安装vim我们可以直接使用"sudo apt-get install vim"即可安装!
+同样,cscope和ctags也可以使用相同方法安装,这是多么畅快淋漓啊!感谢Ubuntu给我们用户如此便利!
+
+对于Taglist使用这个方法安装不了,我们需要先下载，然后安装完成：
+首先上网下载Taglist插件，下载完成后解压，再将文件下的taglist.vim使用ｃｐ命令拷贝到HOME/.vim/plugin文件夹下（cp -r taglist.vim ~/.vim/plugin)
+
+这样,vim+Taglist+cscope+ctags四种工具我们是安装好了,但是如何使用呢?
+
+二、Vim简介及配置
+vim是一个非常好用的编辑工具,以下介绍几个常用的底行模式命令：
+（1）. 设置缩进
+     :set    smartindent      // 设置缩进
+      :set smartindent shiftwidth=4      // C语言自动缩进，缩进值为4个字符宽度
+（2）. 显示光标行列信息
+      :set ruler             // 显示光标信息（右下角）
+（3）. 查看制表符
+      :set list               // 显示制表符，以^符号显示制表符的位置
+（4）. 查看行数信息
+     :set number        //显示行号（左边）
+（5）. 关键字高亮
+    :syntax on                  //关键字高亮
+（6）.  多文件编辑 ，在编写程序时有可能需要同时编辑多个文件，在这种情况下，需要如下设置
+    : split two.c             //  多文件编辑
+
+当然，如果不嫌麻烦，可以在每次打开Vim时 输入如上命令，如我经常用的是:set number :set ruler :syntax on :set smartindent 命令，如果将平时在底行模式下输入的命令直接写入配置文件，则以后使用Vim时不用再次输入这些命令。
+首先，试着在Vi的底行模式下输入如下命令，如果不支持的话，去下载一个Vim的全版本，sudo apt-get install vim-full。
+以下是修改配置文件的方法：
+（1）. 找到Vimrc文件。
+（2） 查看文件的权限：
+zhouyl@ubuntu:~$ cd /etc/vim
+zhouyl@ubuntu:/etc/vim$ ls
+vimrc   vimrc.tiny
+zhouyl@ubuntu:/etc/vim$ ls -l vimrc
+-rw-r--r-- 1 root root 3449  9月 11 17:30 vimrc
+（3） 如果没有写权限的话，修改权限，使我们可以修改该配置文件
+   sudo chmod a+w vimrc
+ （4）根据个人需要将上诉命令写入配置文件
+       比如，我个人的设置是： syntax on , set ruler ,set number , set smartindent shiftwidth=4
+下面贴上我的vimrc文件的配置信息：
+[html] view plaincopy
+"显示行号      
+"set number "或者set  nu  
+map <F5> <Esc>:set nu<CR>   "映射F5显示行号，参考"vim 按键映射"（http://www.pythonclub.org/vim/map-basic）  
+map <C-F5> <Esc>:set nonu<CR>   "映射Ctrl+F5为不显示行号  
+  
+"检测文件的类型      
+filetype on  
+  
+"记录历史的行数      
+set history=1000  
+  
+"自动对齐      
+set autoindent  
+set cindent  
+  
+"智能选择对齐方式      
+set smartindent  
+  
+"tab为4个空格      
+set tabstop=4  
+  
+"当前行之间交错时使用4个空格      
+set shiftwidth=4  
+  
+"设置匹配模式，输入做括号会出现右括号      
+set showmatch  
+  
+"编辑时显示光标状态      
+set ruler  
+  
+"高亮查找    
+set hlsearch  
+  
+"粘贴插入  
+set paste  
+  
+"快速匹配      
+set incsearch  
+  
+"修改文件自动备份      
+if has("vms")  
+    set nobackup  
+else  
+    set backup  
+endif  
+"""""""""""""设置开启ctags"""""""""""""     
+map <F4> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>  
+  
+"第一个命令里的分号是必不可少的。这个命令让vim首先在当前目录里寻找tags文件，如果没有找到  
+tags文件，或者没有找到对应的目标，就到父目录 中查找，一直向上递归。因为tags文件中记录的>路径总是相对于tags文件所在的路径，所以要使用第二个设置项来改变vim的当前目录。   
+set tags=tags;  
+set autochdir  
+"绝对路径  
+"set tags=/home/long/workstation/ganguio/uio-8139d-driver/V7/tags,/home/long/linux-3.7.3/drivers/uio/tags  
+  
+  
+"""""""""""""""""Taglist设置"""""""""""""""""           
+map <F3> : Tlist<CR>  ""按下F3就可以呼出了  
+"let Tlist_Auto_Open = 1  "在启动VIM后，自动打开taglist窗口  
+let Tlist_Ctags_Cmd = '/usr/bin/ctags'  "设定ctags的位置  
+let Tlist_Use_Right_Window=0 " 1为让窗口显示在右边，0为显示在左边  
+let Tlist_Show_One_File=0 "让taglist可以同时展示多个文件的函数列表，设置为1时不同时显示>多个文件的tag，只显示当前文件的  
+let Tlist_File_Fold_Auto_Close=1 "同时显示多个文件中的tag时，taglist只显示当前文件tag，>其他文件的函数列表折叠隐藏  
+let Tlist_Exit_OnlyWindow=1 "当taglist是最后一个分割窗口时，自动退出vim  
+"let Tlist_Use_SingleClick= 1    " 缺省情况下，在双击一个tag时，才会跳到该tag定义的位置  
+"let Tlist_Process_File_Always=0  "是否一直处理tags.1:处理;0:不处理  
+  
+  
+  
+"""""""""""""""""""""""cscope设置""""""""""""""""""      
+set cscopequickfix=s-,c-,d-,i-,t-,e-    
+if has("cscope")    
+set csprg=/usr/bin/cscope    
+set csto=1    
+set cst    
+set nocsverb    
+" add any database in current directory     
+if filereadable("cscope.out")    
+   cs add cscope.out    
+endif    
+set csverb    
+endif    
+  
+nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>  
+nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>  
+nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>  
+nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>  
+
+因为我的文档中的原配置文件已经有了语法高亮：
+" Vim5 and later versions support syntax highlighting. Uncommenting the next
+" line enables syntax highlighting by default.
+if has("syntax")
+  syntax on
+endif
+所以我就没写了，您如果vimrc文件里面没有此项建议自己加上syntax on设置语法高亮
+
+PS：在配置文件中"符号后的内容是注释，而且在配置文件中是不需要添加符号的 ，这里关于cscope、ctags和Taglist的设置可以先写上，后面将对这三个插件有介绍。好了，现在去开一个Ｖim，编辑一个程序看看，是不是感觉很不一般呢？
+好了，下面顺便演示下，智能补全的用法，我分四种情况：1、前面申明过的变量或者函数名的补全；2、结构体等自建结构的补全；3、STL等标准库的补全；4、括号、引号等自动匹配补全。
+对于第一种情况，写程序的过程中，直接用CTRL+p即可选择，对于第二种情况，如果想申明了结构体T，想在输入T.时弹出成员供选择，只需在用之前按一下：CTRL+F12，然后效果如图：
+
+三、TagList插件简述及使用
+TagList插件,是一款基于ctags,在vim代码窗口旁以分割窗口形式(如上图所示）显示当前的代码结构概览,增加代码浏览的便利程度的vim插件.在Vim中加载代码文件后，可以使用以下命令控制taglist：
+TlistOpen(直接Tlist也可）打开并将输入焦点至于标签列表窗口,效果如上图所示
+TlistClose关闭标签列表窗口
+TlistToggle切换标签列表窗口状态(打开←→关闭)，标签列表窗口是否获得焦点取决于其他配置
+ctl-w＋w或ctl-w＋ 方向键窗口切换（taglist本质上是一个vim分隔窗口，因此可以使用ctl-w系列快捷键对窗口进行切换操作)在Taglist窗口主要有以下操作
+按F1:打开帮助回车键:跳到光标所在的标记的定义处(如将光标移到main函数,按回车键)
+o:新建一个窗口,跳到标记定义处
+p:预览标记定义(仍然在taglist窗口)
+空格:显示标记的原型(如函数原型)
+u:更新标记列表(比如源文件新增了一个函数,并在保存后,可在taglist窗口按u)
+s:选择排序字段(暂时我也不知道什么意思)
+d:删除光标所在的taglist文件(如用vi打开了两个文件f1.c,f2.c可以删除f1.c的标记)
+x:n放大/缩小taglist窗口
++:展开(指标记)
+-:折叠
+*:全部展开
+=:全部折叠
+[[:将光标移到前一个文件的起点
+]]:将光标移到后一个文件的起点
+q:退出taglist窗口
+F1:关闭帮助
+
+四、Ctags插件简介及使用
+ctags使用简介VIM简单易用，大家只要看看VIM自带的vitutor，大约只要20分钟就能掌握VIM的用法,上面也简单介绍了点vim的用法。但是对于Linux下的C/C++的程序员，使用VIM+Ctags的组合来写程序也许是最佳的选择。^_^尽管ctags也可以支持其它编辑器，但是它正式支持的只有VIM。并且VIM中已经默认安装了Ctags，它可以帮助程序员很容易地浏览源代码。熟练的使用ctags仅需记住下面七条命令：（很简单吧，呵呵）
+1．$ctags –R * ($为Linux系统Shell提示符)
+2.$ vi –t tag (请把tag替换为您欲查找的变量或函数名)
+3．:ts(ts助记字：tagslist, “:”开头的命令为VI中命令行模式命令)
+4．:tp(tp助记字：tagspreview)---此命令不常用，可以不用记
+5．:tn(tn助记字：tagsnext) ---此命令不常用，可以不用记
+6．Ctrl+ ]跳到光标所在函数或者结构体的定义处
+7．Ctrl+ T返回查找或跳转
+下面我们逐条的解释上面的命令：“$ctags –R*”：“-R”表示递归创建，也就包括源代码根目录（当前目录）下的所有子目录。“*”表示所有文件。这条命令会在当前目录下产生一个“tags”文件，当用户在当前目录中运行vi时，会自动载入此tags文件。Tags文件中包括这些对象的列表：用#define定义的宏枚举型变量的值函数的定义、原型和声明名字空间（namespace）类型定义（typedefs）变量（包括定义和声明）类（class）、结构（struct）、枚举类型（enum）和联合（union）类、结构和联合中成员变量或函数VIM用这个“tags”文件来定位上面这些做了标记的对象。剩下的命令就是定位这些对象的方法：“$vi –t tag” ：在运行vim的时候加上“-t”参数，例如：[/usr/src]$vim -tmain这个命令将打开定义“main”（变量或函数或其它）的文件，并把光标定位到这一行。如果这个变量或函数有多处定义，在VI命令行模式“：ts”命令就能列出一个列表供用户选择。“：tp”为上一个tag标记文件，“：tn”为下一个tag标记文件。
+当然，若当前tags文件中用户所查找的变量或函数名只有一个，“:tp,:tn”命令不可用。
+（最方便的方法是把光标移到变量名或函数名上，然后按下“Ctrl+]”，这样就能直接跳到这个变量或函数定义的源文件中，并把光标定位到这一行。用“Ctrl+T”可以退回原来的地方。即使用户使用了N次“Ctrl+]”查找了N个变量，按N次“Ctrl+t”也能回到最初打开的文件，它会按原路返回 。 ^_^
+注意：运行vim的时候，必须在“tags”文件所在的目录下运行。否则，运行vim的时候还要用“:settags=”命令设定“tags”文件的路径，这样vim才能找到“tags”文件。在完成编码时，可以手工删掉tags文件（帚把不到，灰尘不会自己跑掉^_^）。
+有时候系统提示“找不到tag”时不要一味着急，有可能你想要查询的函数时系统函数，如果这样，那妳幸运勒，可以使用Shift+K来查询。如果不是没也可以自己找到tags文件，打开查询，如果还是找不到...哼哼，我也没辙了！
+五、Cscope插件简介及使用
+Cscope是一个类似ctags的工具。 你可以把它想作是超过频的ctags，因为它功能比ctags强大很多。 在Vim里，通过cscope查询结果来跳转就象跳转到其他的标签完全一样；它被保存在标签栈里。这样你就可以象使用tags一样在函数等等之间便捷的跳转。在VIM中使用cscope非常简单：
+首先在目录下使用“cscope -kqb”生成cscope.out文件;
+使用时先在VIM的命令行下调用“cscope add/../../cscope.out”（或cs add /../../cscope.out)命令添加一个cscope数据库，然后就可以调“cscope find”（或 cs f ）命令进行查找了。
+VIM支持8种cscope的查询功能，如下：
+c:Find functions calling this function//查找调用本函数的函数
+d:Find functions called by this function //查找本函数调用的函数
+e:Find this egrep pattern//查找egrep模式，相当于egrep功能，但查找速度快多了
+f:Find this file //查找并打开文件，类似vim的find功能
+g:Find this definition//查找函数、宏、枚举等定义的位置，类似ctags的功能
+i:Find files #including this file //查找包含本文件的文件
+s:Find this C symbol //查找C语言符号，即查找函数名、宏、枚举值等出现的地方
+t:Find assignments to //查找指定的字符串
+例如，我们想在代码中查找调用work()函数的函数，我们可以输入：“:cs f c work”，回车后发现没有找到匹配的功能，可能并没有函数调用work()。我们再输入“:cs f s work”，查找这个符号出现的位置，现在vim列出了这个符号出现的所有位置。我们还可以进行字符串查找，它会双引号或单引号括起来的内容中查找。还可以输入一个正则表达式，这类似于egrep程序的功能。
+cscope在vim命令行下还可以执行下列操作
+help: Show this message(Usage: help)
+kill: Kill a connection(Usage: kill #)
+reset:Reinit all connections(Usage: reset)
+show: Show connections (Usage: show)
+
+更详细的Cscope用法见:http://blog.csdn.net/longerzone/article/details/7788010

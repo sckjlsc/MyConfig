@@ -14,6 +14,8 @@ set softtabstop=4
 set laststatus=2
 set ruler
 set number
+set smartindent
+set smartindent shiftwidth=4
 set cursorline
 set hlsearch
 set guifont=YaHei\ Consolas\ Hybrid\ 11.5
@@ -39,3 +41,25 @@ set completeopt-=preview
 let g:ycm_min_num_of_chars_for_completion=1
 let g:ycm_cache_omnifunc=0
 let g:ycm_seed_identifiers_with_syntax=1
+map <F4> :!ctags -R --c++-kinds=+p --fields=+iaS --extra=+q .<CR><CR>
+set tags=tags;
+set autochdir
+set cscopequickfix=s-,c-,d-,i-,t-,e-
+if has("cscope")
+    set csprg=/usr/bin/cscope
+    set csto=1
+    set cst
+    set nocsverb
+    if filereadable("cscopeout")
+        cs add cscope.out
+    endif
+    set csverb
+endif
+nmap <C-@>s :cs find s <C-R>=expand("<cword>")<CR><CR>:
+nmap <C-@>g :cs find g <C-R>=expand("<cword>")<CR><CR>
+nmap <C-@>c :cs find c <C-R>=expand("<cword>")<CR><CR>
+nmap <C-@>t :cs find t <C-R>=expand("<cword>")<CR><CR>
+nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>
+nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
+nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
+nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
