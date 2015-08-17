@@ -1,0 +1,101 @@
+Ubuntu下常用开发工具安装（VirtualBox/ctags/Beyond Compare/Source Insight/ADB/minicom/fastboot）
+分类： Env/Tools 2012-10-06 17:43 2365人阅读 评论(0) 收藏 举报
+1. VirtualBox + WinXP // 虚拟机软件
+环境: ubuntu10.04 64bit + virtualbox 3.1.8 + winxp 32bit
+1）https://www.virtualbox.org官方下载对应ubuntu下适用的版本
+2）应用程序 -> 系统工具中打开VirtualBox，选择新建安装WINXP对应版本，按光盘或者镜像文件安装好WINXP。
+3）在启动虚拟机的设备菜单选项安装增强功能组件
+4） 文件共享功能设置：Virtualbox下有自带的共享文件功能，在设置里选择共享，添加固定共享文件输入名字，然后启动客户机，打开我的电脑，选择 “工具” — “映射网络驱动器”
+在“文件夹”处填写：\\vboxsvr\XXX (XXX 是刚才我建的那个共享文件夹名），点击完成之后，我们即可在我的电脑里像使用本地磁盘一样使用该共享文件夹。
+
+2. ctags  // ctags（Generate tag files for source code）是vim下方便代码阅读的工具
+sudo apt-get install ctags 
+
+3. Beyond Compare安装
+解压压缩包到/usr/lib32/beyondcompare目录，执行./install.sh 
+破解：
+BCompare 3.1.11 linux版代码生成器
+1）将软件包中的BCompare文件放到与keygen相同的目录下，BCompare通常在/usr/lib32/beyondcompare下。
+2）运行keygen，按提示操作，keygen将产生新的BCompare并生成注册码。
+3）运行BeyondCompare，输入注册码。
+出现如下错误：
+error while loading shared libraries: libqtc.so.1: cannot open shared object file: No such file or directory
+解决：
+拷贝libqtc.so.1和libqt-mt.so.3拷贝到/usr/local/lib/ 下。
+终端输入：
+  sudo cp /your_bcompare_path/libqtc.so.1 /usr/local/lib/ 
+  sudo cp /your_bcompare_path/libqt-mt.so.3 /usr/local/lib/
+修改so配置路径
+终端输入
+sudo gedit /etc/ld.so.conf 
+
+在文件的尾部添加： 
+include /usr/local/lib 
+保存并关闭。接着在终端输入： 
+
+sudo /sbin/ldconfig -v 
+目的是更新配置文件。
+
+4. Source Insight
+在Ubuntu中，安装Windows程序用wine，然后用wine安装Windows软件即可。
+安装wine
+在终端输入以下命令：
+sudo apt-get install wine
+用wine安装Source Insight
+在终端中输入以下命令：
+wine ～/SourceInsight/InsightSetup.exe
+注：SourceInsight的安装包要自行下载，跟windows下的安装一样。
+打开:
+安装所在路径：~/.wine/drive_c/Program Files/Source Insight 3
+通过wine打开程序：wine Insight3.exe
+通过菜单打开：Wine->Programs->Source Insight3->Source Insight 3.5
+
+5. ADB
+首先需要下载adb for linux的工具包: platform-tools-linux.tar.gz，解压到如何目录，然后新建并编辑一个文件：
+sudo vi /etc/udev/rules.d/70-android.rules
+如果你的系统是10.10,或者11.04（11.10没有测试），则写入下面这句
+SUBSYSTEM==”usb”, ATTR{idVendor}==”04e8“, MODE=”0666″
+如果你的系统版本是10.04 就改为下面一句
+SUBSYSTEM==”usb”, SYSFS{idVendor}==”04e8“, MODE=”0666″
+然后保存退出，再设置一下权限
+sudo chmod a+rx /etc/udev/rules.d/70-android.rules
+这时候还需要编辑一下 ~/.bashrc 文件加入adb tool的路径
+vi ~/.bashrc
+在末尾加入，其中红色部分就是刚下载的工具包解压的路径
+export PATH=${PATH}:/xxx/platform-tools
+现在需要重启一下你的Ubuntu，然后USB连接手机，确保usb调试已打开，在终端下输入：adb start-server 打开服务，如果一切正常的话输入：adb devices 就能显示出当前连接到电脑的android设备。
+问题：error: insufficient permissions for device
+ $ sudo -s
+sudo -s:执行环境变数中的 SHELL 所指定的 shell ，或是 /etc/passwd 里所指定的 shell 
+即相当于 sudo /bin/bash
+ $ adb kill-server
+ $ adb start-server
+* daemon not running. starting it now *
+* daemon started successfully *
+$ exit
+exit
+$ adb shell
+
+6. meld
+sudo apt-get install meld
+
+7. minicom
+1) 用sudo apt-get install minicom安装
+2) 设置
+用sudo minicom -s进入设置界面，选择Serial port setup选项：
+serial device :/dev/ttyUSB0 
+Bps/Par/Bits:115200 8N1
+Hardware Flow Control: NO
+Software Flow Control: NO
+之后退出保存. 使用时敲minicom命令
+传输文件：
+(Ctrl + a) --> s --> xmodem --> [Okay] --> 
+    
+    +-----------------------------------------+ 
+    |No file selected - enter filename:       | 
+    |>      | [Enter]
+    +-----------------------------------------+
+
+8. fastboot
+默认在android工程中有: system/core/fastboot/，编译出来后在out/host/linux-x86/bin/fastboot。
+版权声明：本文为博主原创文章，未经博主允许不得转载。
