@@ -1,0 +1,4 @@
+queryStr = "             SELECT accountId, accountType, stopDate, stopTime, minutesUsed, timePrice, workstationId             FROM SessionLogs             WHERE                 (workstationId>0)               
+
+
+queryStr = "             SELECT accountId, accountType, stopDate, stopTime, minutesUsed, timePrice, workstationId             FROM SessionLogs             WHERE                 (workstationId>0)               

@@ -1,0 +1,24 @@
+﻿Office 2010 Beta2中文版密钥：
+
+2PWHY-KT4X6-96PYW-XQR7V-HW2W9
+7XD2X-JWJ94-BCHBW-W9WXP-J2WPT
+YF79C-7Y4B4-PGM89-6BKGJ-46PBT
+PYMDW-8DFY2-Y68BB-XHDGD-CT443[color]
+
+
+
+官网下载时给你一段重要事项，还给你了密钥，不知对你有没有帮助
+        Microsoft Office Professional Plus 2010 Beta 产品密钥 
+
+您可以使用以下 MAK 密钥来激活 Microsoft Office Professional Plus 2010 Beta 评估版本。
+MAK 密钥： CX8WV-8QTGW-PM787-C4MGB-RHWJ3
+重要事项：请阅读 
+我们建议您完成安装后尽快激活 Office Professional Plus 2010 Beta。 
+安装 Microsoft Office Professional Plus 2010 Beta 后，请按照以下步骤进行操作： 
+步骤 1： 打开 Microsoft Word 2010 Beta，然后单击“文件”选项卡。将显示后台验证视图。接着，单击左边选项卡集合中的“帮助”。
+步骤 2： 单击屏幕右侧的“更改产品密钥”。
+步骤 3： 输入上面显示的多次激活密钥 (MAK)。请选中自动激活框，或者重新启动应用程序，使用激活对话框进行激活。
+步骤 4： 这就是您需要完成的全部操作。在 Microsoft Word 2010 Beta 中输入 MAK 密钥以自动激活所有 Office Professional Plus 2010 Beta 应用程序。单击“文件”选项卡可返回“文档”视图。
+有关批量激活的更多信息 
+Microsoft Office 2010 产品提供有两种激活选项。前面介绍的 MAK 密钥是其中一种激活方式。另一种激活选项是设置密钥管理服务器 (KMS)，该选项是针对 IT 管理员提供的。
+此处(该链接可能指向英文页面)提供了有关使用 KMS 安装和激活 Office 2010 产品的详细信息。

@@ -1,0 +1,52 @@
+1、cd /home
+2、gcc -o helloworld helloworld.m -I/GNUstep/System/Library/Headers -fconstant-string-class=NSConstantString -L/GNUstep/System/Library/Libraries -lobjc -lgnustep-base
+3、运行helloworld.exe
+
+> 在C:\GNUstep\GNUstep\System\Library\Headers\GNUstepBase目录下找到GSConfig.h文件，将BASE_NATIVE_OBJC_EXCEPTIONS键值由1改为0
+> 在shell中编译objective-c源文件命令：gcc -o main main.m -I/GNUstep/System/Library/Headers -fconstant-string-class=NSConstantString -L/GNUstep/System/Library/Libraries -lobjc -lgnustep-base
+ [gcc main.m -o main]
+> 在shell中编译c源文件命令：gcc -o main main.c
+> 在shell中运行exe文件命令：./main.exe
+
+3.软件都安装完成之后，在开始菜单->所有程序->GNUstep->shell，会弹出一个cmd命令窗口
+
+4.我们可以通过vim helloworld.m 创建一个helloworld文件,或者我们可以通过其他的IDE工具，在d:\GNUstep\msys\1.0\home\<username>下创建文件,其中<username>是系统的登录用户名，我的就是默认的d:\GNUstep\msys\1.0\home\Administrator,第一个代码如下,代码不做解释，今天的重点就是讲下GNUstep的使用
+
+?
+#import <Foundation/Foundation.h>  
+   
+int main(char argc, char* argv[]) {  
+    NSLog(@"hello world");  
+    return 0;  
+}
+ 5.创建helloworld.m完成后，在命令行运行
+
+1     gcc -o helloworld helloworld.m \  
+2     -fconstant-string-class=NSConstantString \  
+3     -I /GNUstep/System/Library/Headers/ \  
+4     -L /GNUstep/System/Library/Libraries/ \  
+5     -lobjc \  
+6     -lgnustep-base  
+特别注意:Be very careful about the -lobjc and -lgnustep-base switch, they must appear after file name "helloworld.m", helloword.m必须要在-lobjc and -lgnustep-base的前面
+
+6.如果不报错误的情况下，会创建一个helloword.exe文件，我的是一次运行成功，但是在网上也看到有人运行后会报错，如下
+
+
+
+解决办法D:\GNUstep\GNUstep\System\Library\Headers\GNUstepBase\GSConfig.h中，找到
+
+#define BASE_NATIVE_OBJC_EXCEPTIONS     1=》#define BASE_NATIVE_OBJC_EXCEPTIONS     0 
+之后从新编译
+
+7.运行helloworld.exe
+
+
+
+按照上面的安装，通过shell命令是没有问题，可以当运行gorm和projectCenter时，运行不起来，后来全部卸载，默认安装到c盘，gorm能够正常运行，可是projectCenter提示gnustep-gui-0_22.dll找不到，上网搜索就是找不到这个文件，估计是安装版本的问题，之后恢复到旧版本如下:
+
+gnustep-system-0.22.0-setup.exe，gnustep-core-0.22.0-setup.exe，gnustep-devel-1.0.0-setup.exe，gorm-1.2.8-setup.exe，ProjectCenter-0.5.0-setup.exe
+
+再次运行，一切ok！新版本找不到文件，待解决。
+
+
+C:\GNUstep\GNUstep\System\Library\Headers\GNUstepBase #define BASE_NATIVE_OBJC_EXCEPTIONS     1

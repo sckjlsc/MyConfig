@@ -1,0 +1,28 @@
+    QMessageBox msgBox;
+    msgBox.setText("records cannot be translated which have been auto renamedrecords cannot be translated which have been auto renamedrecords cannot be translated which have been auto renamedrecords cannot be translated which have been auto renamedrecords cannot be translated which have been auto renamedrecords cannot be translated which have been auto renamedrecords cannot be translated which have been auto renamedrecords cannot be translated which have been auto renamedrecords cannot be translated which have been auto renamed");
+    msgBox.setInformativeText("Press Yes to view these record, No to exit!");
+    QAbstractButton *myYesButton = msgBox.addButton(QString("Yes"), QMessageBox::YesRole);
+    QAbstractButton *myNoButton = msgBox.addButton(QString("No"), QMessageBox::NoRole);
+    msgBox.setIcon(QMessageBox::Question);
+    msgBox.exec();
+    ShellExecute(
+        (HWND)(msgBox.effectiveWinId()),
+        L"open",
+        L"prepaidDialog.xml",
+        NULL,
+        NULL,
+        SW_SHOWNORMAL
+        );
+
+
+
+
+
+    CcMultiLangHelper::loadTranslations(QApplication::applicationDirPath() + "/tr/clientLocker");
+
+    QString languageKeyHive = "HKEY_LOCAL_MACHINE\\SOFTWARE\\Garena\\GBillingClientI";
+    QSettings settings( languageKeyHive, QSettings::NativeFormat ); 
+    QString langRegKeyName = "Language";
+    QString lang = settings.value(langRegKeyName, "vi_VN").toString();
+    //QString lang = "vi_VN";
+    bool result = CcMultiLangHelper::setLanguage(lang);

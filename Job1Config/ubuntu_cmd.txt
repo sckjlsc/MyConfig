@@ -1,0 +1,16 @@
+﻿sudo rm -r -f /path/
+sudo -iÐÞ¸Äroot password
+
+ps aux
+ps aux | grep sql
+ps aux | grep my
+mysql -u root -p
+sudo service mysql start 
+
+检测port
+netstat
+
+netstat -a -n -o
+taskkill /f /pid 3624
+
+netstat -tapen | grep "8109"

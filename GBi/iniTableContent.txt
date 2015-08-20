@@ -1,0 +1,126 @@
+bool ConfigManager::iniTableContent(const QString& serverLang)
+{
+    QString fileName = serverLang+".xml";
+    QFile file(fileName);
+    //use default file if file not exist
+    if(!file.exists())
+    {
+        file.setFileName("Default.xml");
+    }
+    //file cannot be open
+    if(!file.open(QIODevice::ReadOnly))
+    {
+        return false;
+    }
+
+    QDomDocument dom;
+    //cannot get the content
+    if(!dom.setContent(&file))
+    {
+        file.close();
+        return false;
+    }
+    file.close();
+ 
+    // add another layer if not in mainDB
+    QSqlDatabase db = mainDB();
+    QSqlQuery sqlQuery(db);
+
+
+    QDomNode node = dom.firstChild();
+    while(node.nodeName() != "root")
+    {
+        node = node.nextSibling();
+    }
+    //cannot find root, file format error
+    if(node.nodeName() != "root")
+    {
+        return false;
+    }
+
+    QDomNodeList tables = node.childNodes();
+    QDomNode temTable;
+    int tc=tables.count();
+
+    for(int i = 0; i < tables.count(); i++)
+    {
+        temTable = tables.item(i);
+        //rule out the command
+        if(temTable.nodeName() == NULL || temTable.nodeName() == "#comment")
+        {
+            continue;
+        }
+
+        QString name = temTable.toElement().attribute("name","");//= temTable.nodeName();
+        OutputDebugString(name.toStdWString().c_str());
+        QString type = temTable.toElement().attribute("type","");
+        OutputDebugString(type.toStdWString().c_str());
+
+        QDomNodeList tuples = temTable.childNodes();
+        QDomNode temTuple;
+
+        for(int j = 0; j < tuples.count(); j++)
+        {
+            temTuple = tuples.item(j);
+            //rule out the command
+            if(temTuple.nodeName() == NULL || temTuple.nodeName() == "#comment")
+            {
+                continue;
+            }
+
+            QString queryP1 = "(";
+            QString queryP2 = "(";
+            QDomNamedNodeMap attributeMap = temTuple.attributes();
+            for(int k = 0; k<attributeMap.count(); k++)
+            {
+                QDomNode attribute = attributeMap.item(k);
+                QString attName = attribute.nodeName();
+                QString attValue = attribute.nodeValue();
+
+                if(k != attributeMap.count()-1)
+                {
+                    queryP1.append(attName+",");
+                    queryP2.append("\""+attValue+"\""+",");
+                }
+                else
+                {
+                    queryP1.append(attName+")");
+                    queryP2.append("\""+attValue+"\""+")");
+                }
+
+            }
+            
+            QString sqlQueryStr;
+            if(type == "insert")
+            {
+                sqlQueryStr = "INSERT INTO " + name + queryP1 + " VALUES " + queryP2;
+            }
+            else if(type == "update")
+            {
+                //"UPDATE names SET firstname = 'Nisse', lastname = 'Svensson' WHERE id = 7"
+
+            }
+            else if(type == "delete")
+            {
+                //"DELETE FROM names WHERE id = 7"
+
+            }
+
+            OutputDebugString(L"\r\n");
+            OutputDebugString(sqlQueryStr.toStdWString().c_str());
+            //error occurs, continue the next insertion
+            if(!sqlQuery.prepare(sqlQueryStr))
+            {
+                OutputDebugString(L"not prepared\r\n");
+                continue;
+            }
+            //execute failed, continue the insertion of next tuple
+            if (!sqlQuery.exec())
+            {
+                OutputDebugString(L"failed\r\n");
+                continue;
+            }
+        }
+    }
+    return true;
+}

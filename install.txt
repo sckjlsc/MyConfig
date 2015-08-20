@@ -1,0 +1,66 @@
+   16  sudo apt-get install vim
+   19  sudo apt-get install git
+   25  sudo apt-get install g++
+   30  sudo apt-get install curl
+   36  sudo apt-get install exuberant-ctags
+   42  apt-get install vim-youcompleteme
+   43  sudo apt-get install vim-youcompleteme
+   44  sudo apt-get install vim-addon-manager
+   45  vam install youcompleteme
+   46  sudo apt-get install vim-addon-manager
+   48  sudo apt-get install vim-addon-manager
+   49  vam install youcompleteme
+   50  sudo apt-get install vim-youcompleteme
+   51  vam install youcompleteme
+   63  sudo apt-get install sublime-text-installer
+  101  sudo apt-get install cmake
+  116  sudo apt-get install cmake
+  173  sudo apt-get install python-dev python3-dev
+  188  sudo apt-get install build-essential
+  193  ./install.sh --clang-completer
+  270  sudo apt-get install software-center
+  306  sudo apt-get install openssh-server
+  309  sudo apt-get install software-center
+  334  sudo apt-get install beyond-compare
+  404  sudo atp-get install libX11-dev
+  405  sudo apt-get install libX11-dev
+  406  sudo apt-get install libXext-dev
+  407  sudo apt-get install libXtst-dev
+  410  sudo make install
+  467  ./uninstall 
+  484  find . -name uninstall
+  488  sudo make uninstall
+  507  sudo apt-get install build-essential libgl1-mesa-dev
+  525  sudo apt-get install virtualbox-guest-x11
+  526  sudo apt-get install virtualbox-guest-additions-iso
+  531  sudo apt-get install virtualbox-guest-x11
+  532  sudo apt-get install xorg-video-abi-15
+  533  sudo apt-get install libcheese-gtk23 libcheese7
+  534  sudo apt-get install xorg-video-abi-15 
+  580  sudo atp-get install openssh-server
+  581  sudo apt-get install openssh-server
+  587  scp Downloads/ atp@192.168.110.54:atp-installer/atp-release_2.1.0.0.tar.gz
+  588  scp atp@192.168.110.54:atp-installer/atp-release_2.1.0.0.tar.gz Downloads/
+  714  sudo apt-get install bash-completion
+  734  sudo apt-get install ninja-build
+  797  sudo apt-get install libqt5
+  798  sudo apt-get install libqt5widgets5 
+  817  sudo apt-get install libqt5widgets5 
+  842  sudo apt-get install qtcore5-dev
+  843  sudo apt-get install libqtcore5-dev
+  847  sudo apt-get install libqtcore5-dev
+  848  sudo apt-get installqtcore5-dev
+  849  sudo apt-get install qtcore5-dev
+  850  sudo apt-get install qtbase5-dev
+  854  sudo apt-install qt5-default 
+  855  sudo apt-get install qt5-default 
+  861  sudo apt-get install qt5-default 
+  862  sudo apt-get install qtmultimedia5-dev 
+  864  sudo apt-get install qtwebkit5-de
+  865  sudo apt-get install qtwebkit5-dev
+  866  sudo apt-get install libqt5webkit5-d
+  867  sudo apt-get install libqt5webkit5-dev 
+  870  sudo apt-get install qtcreator
+  874  sudo apt-get install cmake qt
+  877  sudo apt-get install qtcreator-plugin-cmake
+  894  history |grep install

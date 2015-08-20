@@ -1,0 +1,285 @@
+Visual Studio 项目相关宏定义 ZZ
+Visual Studio 宏
+http://blog.sina.com.cn/s/blog_5515f2a2010195xs.html
+在visual studio中加入项目文件，也就是引用外部文件，比如在tools\options中的show directions for中选择include files,我们需要引用项目（solution)中文件夹中的文件，可以选用下文中的如下宏：$(SolutionDir)\Dshow\Include，这样就将项目中的Dshow\include文件加入到编译文件列表中。
+$(RemoteMachine) 在“调试”属性页上设置为 Remote Machine 属性的值。有关更多信息，请参见更改用于 C/C++ 调试配置的项目设置。  
+
+$(Configuration) 当前项目配置的名称（例如“Debug”）。
+
+$(Platform) 当前项目平台的名称（例如“Win32”）。
+
+$(RootNameSpace) 包含应用程序的命名空间（如果有）。  
+
+$(IntDir) 为中间文件指定的相对于项目目录的目录路径。此路径应具有尾部斜杠。这解析为 Intermediate Directory 属性的值。  
+
+$(OutDir) 输出文件目录的路径，相对于项目目录。此路径应具有尾部斜杠。这解析为 Output Directory 属性的值。  
+
+$(DevEnvDir) Visual Studio 2010 的安装目录（定义为驱动器 + 路径）；包括尾部反斜杠“\”。  
+
+$(ProjectDir) 项目的目录（定义形式：驱动器 + 路径）；包括尾部的反斜杠“\”。  
+
+$(ProjectPath) 项目的绝对路径名（定义形式：驱动器 + 路径 + 基本名称 + 文件扩展名）。  
+
+$(ProjectName) 项目的基名称。  
+
+$(ProjectFileName) 项目的文件名（定义为基本名称 + 文件扩展名）。  
+
+$(ProjectExt) 项目的文件扩展名。它在文件扩展名的前面包括“.”。  
+
+$(SolutionDir) 解决方案的目录（定义形式：驱动器 + 路径）；包括尾部的反斜杠“\”。  
+
+$(SolutionPath) 解决方案的绝对路径名（定义形式：驱动器 + 路径 + 基本名称 + 文件扩展名）。  
+
+$(SolutionName) 解决方案的基名称。  
+
+$(SolutionFileName) 解决方案的文件名（定义为基本名称 + 文件扩展名）。  
+
+$(SolutionExt) 解决方案的文件扩展名。它在文件扩展名的前面包括“.”。  
+
+$(TargetDir) 生成的主输出文件的目录（定义形式：驱动器 + 路径）；包括尾部的反斜杠“\”。  
+
+$(TargetPath) 生成的主输出文件的绝对路径名（定义形式：驱动器 + 路径 + 基本名称 + 文件扩展名）。  
+
+$(TargetName) 生成的主输出文件的基本名称。  
+
+$(TargetFileName) 生成的主输出文件的文件名（定义为基本名称 + 文件扩展名）。  
+
+$(TargetExt) 生成的主输出文件的文件扩展名。它在文件扩展名的前面包括“.”。  
+
+$(VSInstallDir) 安装 Visual Studio 2010 的目录。 此属性包含目标 Visual Studio 的版本，该版本可能与宿主 Visual Studio 不同。例如，在使用 $(PlatformToolset) = v90 进行生成时，$(VSInstallDir) 包含 Visual Studio 2008 安装位置的路径。  
+
+$(VCInstallDir) 安装 Visual C++ 2010 的目录。 此属性包含目标 Visual C++ 的版本，该版本可能与宿主 Visual Studio 不同。例如，在使用 $(PlatformToolset) = v90 进行生成时，$(VCInstallDir) 包含 Visual C++ 2008 安装位置的路径。  
+
+$(FrameworkDir) 安装 .NET Framework 的目录。  
+
+$(FrameworkVersion) Visual Studio 使用的 .NET Framework 版本。与 $(FrameworkDir) 相结合，就是 Visual Studio 使用的 .NET Framework 版本的完整路径。  
+
+$(FrameworkSDKDir) 安装 .NET Framework 的目录。.NET Framework 可能已作为 Visual Studio 2010 的一部分安装，也可能单独安装。  
+
+$(WebDeployPath) 从 Web 部署根到项目输出所属于的位置的相对路径。返回与 RelativePath 相同的值。
+
+$(WebDeployRoot) 指向 位置的绝对路径。例如，c:\inetpub\wwwroot。
+
+$(FxCopDir) fxcop.cmd 文件的路径。fxcop.cmd 文件不和所有的 Visual C++ 版本一起安装。
+
+
+
+=====================================================================
+
+visual studio里的几个输出的设置及一些文件的作用
+
+http://hi.baidu.com/gamedot/item/e0a10f2db1130b0e43634ad0
+
+首先是 OutPut Directory ,它的值不会直接影响到你文件的输出，但它会间接的影响其他输出，比方说默认值中包含有$(OutDir).
+Intermediate Directory ,中间目录，生成的obj文件，预编译头，预编译相关的idb及pdb,buildlog都会在这里.
+idb 是系统生的成的状态信息，可以加速随后的编译
+pdb 包含调试信息
+Linker->General->OutPut File,输出文件，虽然填的是exe的路径,但.ilk文件会按这个路径输出.
+Linker->Debugging->Genrerate Program Database File,输出的pdb文件
+Linker->Advanced->Import Library 指示了将随同dll生成的lib文件输出的文件名和路径
+DSW:全称是Developer   Studio   Workspace，最高级别的配置文件，记录了整个工作空间的配置信息，她是一个纯文本的文件，在vc创建新项目的时候自动生成   
+DSP:全称是Developer   Studio   Project，也是一个配置文件，不过她记录的是一个项目的所有配置信息，纯文本文件   
+OPT：与DSW、DSP配合使用的配置文件，她记录了与机器硬件有关的信息，同一个项目在不同的机器上的opt文件内容是不同的   
+CLW：记录了跟ClassWizard相关的信息，如果丢失了clw文件，那么在Class   View面板里就没有类信息   
+PLG：实际上是一个超文本文件，可以用Internet   Explorer打开，记录了Build的过程，是一个日志型文件   
+RC：资源描述文件，记录了所有的资源信息，在资源编辑器里作的修改，实际上都是对RC文件的修改   
+RC2：附加的资源描述文件，不能直接资源编辑器修改，只能手工添加，可以用来添加额外的资源   
+RES：经过资源编辑器编译之后的资源文件，以二进制方式存放   
+SBR：编译器生成的浏览信息文件，在代码导航的时候非常有用，她需要在编译时指定/FR或者/Fr开关   
+BSC：BSCMAKE.EXE将所有的SBR文件作为输入，经过处理之后输出一个BSC文件，在代码导航的时候实际用到的是BSC文件   
+ILK：当选定渐增型编译连接时，连接器自动生成ILK文件，记录连接信息   
+PDB：全称是Program   DataBase，即程序数据库文件，用来记录调试信息，是一个相当重要的文件，没有他，程序无法正常调试   
+LIB：如果项目输出是Dll的话，一般会输出一个跟项目同名的Lib文件，记录输出的函数信息   
+EXP：同Lib，是跟Dll一起生成的输出文件   
+PCH：全称是PreCompiled   Header，就是预先编译好的头文件，在编译时指定/Yu开关时编译器自动生成
+关于,ilk文件及渐增式编译连接
+:       VS2005编译时出现这样的错误：
+: Compiling...
+: Image.cpp
+: Linking...
+: LINK : warning LNK4076: invalid incremental status file "Debug/code.ilk";
+:             linking nonincrementally
+: code.exe - 0 error(s), 1 warning(s)
+原因：
+VC编译时可以选择incremental linking（渐增式编译），也就是每次重新编译并不编译
+所有的源文件，只编译改动过的文件。而编译器怎么知道哪些编译过哪些每编译过呢，
+除了检查修改时间外，这个ilk文件也是很重要的信息。
+如果你因为误操作或者VC自己的BUG引起了ilk文件的损坏，下一次编译时当然无法根据
+ilk进行incremental linking了。但是在这种情况下也没什么大问题，VC自己会解决的，
+所以也只出了一个警告。
+解决办法：
+把Dubug目录下.ilk文件强行删掉再重新编译一次就行了。
+
+
+说明
+$(RemoteMachine)
+
+设置为“调试”属性页上“远程计算机”属性的值。有关更多信息，请参见更改用于 C/C++ 调试配置的项目设置。
+
+$(References)
+
+以分号分隔的引用列表被添加到项目中。
+
+$(ConfigurationName)
+
+当前项目配置的名称（例如“Debug”）。
+
+$(PlatformName)
+
+当前项目平台的名称（例如“Win32”）。
+
+$(Inherit)
+
+指定在由项目生成系统所撰写的命令行中，继承的属性出现的顺序。默认情况下，继承的属性出现在当前属性的末尾。
+
+$(NoInherit)
+
+使任何将被继承的属性不被继承。若还要避免同级级别的计算，请使用 $(StopEvaluating)。使用 $(NoInherit)会导致对于同一属性忽略任何出现的 $(Inherit)。
+
+$(StopEvaluating)
+
+立即停止计算链中宏的计算。出现在 $(StopEvaluating) 之后的任何值将不出现在宏的计算值中。如果$(StopEvaluating) 在 $(Inherit) 之前，计算链中当前位置的继承值将不会连接到宏值。$(StopEvaluating)是 $(NoInherit) 的功能超集。
+
+$(ParentName)
+
+包含此项目项的项的名称。该名称将是父文件夹名称或项目名称。
+
+$(RootNameSpace)
+
+包含应用程序的命名空间（如果有）。
+
+$(IntDir)
+
+为中间文件指定的相对于项目目录的目录路径。它解析为“中间目录”属性的值。
+
+$(OutDir)
+
+输出文件目录的路径，相对于项目目录。这解析为“输出目录”属性的值。
+
+$(DevEnvDir)
+
+Visual Studio .NET 的安装目录（定义形式：驱动器 + 路径）；包括尾部的反斜杠“\”。
+
+$(InputDir)
+
+输入文件的目录（定义形式：驱动器 + 路径）；包括尾部的反斜杠“\”。如果该项目是输入，则此宏等效于 $(ProjectDir)。
+
+$(InputPath)
+
+输入文件的绝对路径名（定义形式：驱动器 + 路径 + 基本名称 + 文件扩展名）。如果该项目是输入，则此宏等效于 $(ProjectPath)。
+
+$(InputName)
+
+输入文件的基本名称。如果该项目是输入，则此宏等效于 $(ProjectName)。
+
+$(InputFileName)
+
+输入文件的文件名（定义为基本名称 + 文件扩展名）。如果该项目是输入，则此宏等效于 $(ProjectFileName)。
+
+$(InputExt)
+
+输入文件的文件扩展名。它在文件扩展名的前面包括“.”。如果该项目是输入，则此宏等效于 $(ProjectExt)。
+
+$(ProjectDir)
+
+项目的目录（定义形式：驱动器 + 路径）；包括尾部的反斜杠“\”。
+
+$(ProjectPath)
+
+项目的绝对路径名（定义形式：驱动器 + 路径 + 基本名称 + 文件扩展名）。
+
+$(ProjectName)
+
+项目的基本名称。
+
+$(ProjectFileName)
+
+项目的文件名（定义为基本名称 + 文件扩展名）。
+
+$(ProjectExt)
+
+项目的文件扩展名。它在文件扩展名的前面包括“.”。
+
+$(SolutionDir)
+
+解决方案的目录（定义形式：驱动器 + 路径）；包括尾部的反斜杠“\”。
+
+$(SolutionPath)
+
+解决方案的绝对路径名（定义形式：驱动器 + 路径 + 基本名称 + 文件扩展名）。
+
+$(SolutionName)
+
+解决方案的基本名称。
+
+$(SolutionFileName)
+
+解决方案的文件名（定义为基本名称 + 文件扩展名）。
+
+$(SolutionExt)
+
+解决方案的文件扩展名。它在文件扩展名的前面包括“.”。
+
+$(TargetDir)
+
+生成的主输出文件的目录（定义形式：驱动器 + 路径）；包括尾部的反斜杠“\”。
+
+$(TargetPath)
+
+生成的主输出文件的绝对路径名（定义形式：驱动器 + 路径 + 基本名称 + 文件扩展名）。
+
+$(TargetName)
+
+生成的主输出文件的基本名称。
+
+$(TargetFileName)
+
+生成的主输出文件的文件名（定义为基本名称 + 文件扩展名）。
+
+$(TargetExt)
+
+生成的主输出文件的文件扩展名。它在文件扩展名的前面包括“.”。
+
+$(VSInstallDir)
+
+安装 Visual Studio .NET 的目录。
+
+$(VCInstallDir)
+
+安装 Visual C++ .NET 的目录。
+
+$(FrameworkDir)
+
+安装 .NET Framework 的目录。
+
+$(FrameworkVersion)
+
+Visual Studio 使用的 .NET Framework 版本。与 $(FrameworkDir) 相结合，就是 Visual Studio 使用的 .NET Framework 版本的完整路径。
+
+$(FrameworkSDKDir)
+
+安装 .NET Framework SDK 的目录。.NET Framework SDK 可作为 Visual Studio .NET 的一部分安装，也可单独安装。
+
+$(WebDeployPath)
+
+从 Web 部署根到项目输出所属于的位置的相对路径。返回与 RelativePath 相同的值。
+
+$(WebDeployRoot)
+
+指向 <localhost> 位置的绝对路径。例如，c:\inetpub\wwwroot。
+
+$(SafeParentName)
+
+有效名称格式的直接父级的名称。例如，窗体是 .resx 文件的父级。
+
+$(SafeInputName)
+
+作为有效类名的文件的名称，但不包括文件扩展名。
+
+$(SafeRootNamespace)
+
+项目向导将在其中添加代码的命名空间名称。此命名空间名称将只包含在有效的 C++ 标识符中允许的字符。
+
+$(FxCopDir)
+
+fxcop.cmd 文件的路径。fxcop.cmd 文件不和所有的 Visual C++ 版本一起安装。

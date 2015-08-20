@@ -1,0 +1,15 @@
+Windows7和Windows8中的路径
+
+C:/Users/用户名/AppData/Local/Microsoft/VisualStudio/10.0/Extensions
+/Whole Tomato Software/Visual Assist X/10.7.1949.0
+
+XP的路径: 
+
+C:/Documents and Settings/用户名/Local Settings/Application Data/Microsoft/VisualStudio /10.0/Extensions
+/Whole Tomato Software/Visual Assist X/10.7.1949.0
+
+VC2012中：
+在【C:\Users\你自己的用户名\AppData\Local\Microsoft\VisualStudio\11.0\Extensions】下，
+你可以看到名字比较随机的文件夹，例如我的电脑中叫tr5pfbo0.tul，无论它的名字是什么，无论你安装过多少次VA，
+这个名称随机的文件夹只有一个，Visual Assist就是安装到这个文件夹中，文件夹中可以看到一些VAxxx开头的文件，
+没错，就是这里了，把补丁拷贝进来，覆盖完了就破解完毕了。

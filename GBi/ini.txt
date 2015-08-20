@@ -1,0 +1,62 @@
+bool AppIniManager::init()
+{
+    // init with default values
+    m_pcDisplayMode = -1;
+    m_hasServerDataFolder = false;
+
+    QString serverSettingPath = QApplication::applicationDirPath() + "/server.ini";
+    m_serverIniSettingsPtr.reset(new QSettings(serverSettingPath, QSettings::IniFormat));
+
+    // [General] group
+    {
+        // load "data folder"
+        m_serverDataFolder = m_serverIniSettingsPtr->value(GENERAL_DATA_FOLDER).toString();
+        if (!m_serverDataFolder.isEmpty())
+        {
+            m_hasServerDataFolder = true;
+        }
+        m_pcDisplayMode = m_serverIniSettingsPtr->value(GENERAL_PC_DISPLAY_MODE).toInt();
+    }
+
+    // [PcTab] group
+    {
+        // load pc tab panel display details
+        m_serverIniSettingsPtr->beginGroup(PCTAB_GROUP_NAME);
+        {
+            m_pcT_pendingOrderViewMode = m_serverIniSettingsPtr->value(
+                PCTAB_PENDING_ORDER_VIEW_MODE, PCTAB_PENDING_ORDER_VIEW_MODE_VAL_DEF).toInt();
+
+            m_pcT_suspendPcViewMode = m_serverIniSettingsPtr->value(
+                PCTAB_SUSPENDED_PC_VIEW_MODE, PCTAB_SUSPENDED_PC_VIEW_MODE_VAL_DEF).toInt();
+        }
+        m_serverIniSettingsPtr->endGroup();
+    }
+
+    //[MaxMoneyPrecision] group
+    {
+        m_serverIniSettingsPtr->beginGroup(MAX_MONEY_PRECISION);
+        {
+            m_pcT_pendingOrderViewMode = m_serverIniSettingsPtr->value(
+                PCTAB_PENDING_ORDER_VIEW_MODE, PCTAB_PENDING_ORDER_VIEW_MODE_VAL_DEF).toInt();
+
+            m_pcT_suspendPcViewMode = m_serverIniSettingsPtr->value(
+                PCTAB_SUSPENDED_PC_VIEW_MODE, PCTAB_SUSPENDED_PC_VIEW_MODE_VAL_DEF).toInt();
+        }
+        m_serverIniSettingsPtr->endGroup();
+    }
+
+    return true;
+}
+
+bool AppIniManager::setPcDisplayMode( int value )
+{
+    Q_ASSERT( ! m_serverIniSettingsPtr.isNull());
+    if (m_serverIniSettingsPtr.isNull())
+    {
+        return false;
+    }
+
+    m_pcDisplayMode = value;
+    m_serverIniSettingsPtr->setValue(GENERAL_PC_DISPLAY_MODE, value);
+    return true;
+}

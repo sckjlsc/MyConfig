@@ -1,0 +1,74 @@
+void UserAccountTabPanel::refreshAllAccountSlot()
+{
+    SessionManager* sessionMgr = SessionManager::GetInstance();
+    QList<UserAccount*> list;
+    if (m_inSearchMode == true)
+    {
+        list = m_searchResultList;
+    }
+    else
+    {
+        list = UserAccountManager::GetInstance()->visibleUsers();
+    }
+
+    int startIndex = (m_currentPage - 1) * MAX_ITEM_PER_PAGE;
+    int count = MAX_ITEM_PER_PAGE;
+
+    // the items is less than MAX_ITEM_PER_PAGE
+    if (list.size() < m_currentPage * MAX_ITEM_PER_PAGE)
+    {
+        count = list.size() - startIndex;
+    }
+    QList<UserAccount*> currentPageUserList = list.mid(startIndex, count);
+
+    // suspend the UI update
+    tableWidget->setUpdatesEnabled(false);
+    tableWidget->setSortingEnabled(false);
+    {
+        // clear the historic data
+        foreach(UserAccount* user, currentPageUserList)
+        {
+            Session* session = sessionMgr->getActiveSessionByAccount(static_cast<Account*>(user));
+            if(session != NULL && session->Status() == SessionStatus_Active)
+            {
+                int row = findMatchingRowById(user->id());
+                if(row == -1)
+                {
+                    continue;
+                }
+
+                // the "inner ID" (a hidden column)
+                QString idStr = QString::number(user->id());
+                QTableWidgetItem* idItem = new QTableWidgetItem(idStr);
+                idItem->setData(Qt::ItemDataRole::UserRole, user->id());
+                tableWidget->setItem(row, 0, idItem );
+
+                // "user name"
+                tableWidget->setItem(row, 1, new QTableWidgetItem(user->displayUserName()));
+
+                // "first name"
+                tableWidget->setItem(row, 2, new QTableWidgetItem(user->firstName()));
+
+                // "last name"
+                tableWidget->setItem(row, 3, new QTableWidgetItem(user->lastName()));
+
+                // "middle name"
+                tableWidget->setItem(row, 4, new QTableWidgetItem(user->middleName()));
+
+                // "money"
+                double money = user->money() - session->TimePriceRevised();
+                QString balanceStr = Utils::formatDisplayMoney(money);
+                QMoneyTableWidgetItem* moneyItem = new QMoneyTableWidgetItem(balanceStr, money);
+                tableWidget->setItem(row, 5, moneyItem);
+
+                // "user group"
+                int groupId = user->groupId();
+                QString groupName = UserGroupManager::GetInstance()->getGroupNameById(groupId);
+                tableWidget->setItem(row, 6, new QTableWidgetItem(groupName));
+            }
+        }
+    }
+    tableWidget->setSortingEnabled(true);
+    // resume the UI update
+    tableWidget->setUpdatesEnabled(true);
+}
