@@ -1,0 +1,75 @@
+  571  git fetch
+  572  git checkout dev/sancai/150706/qt-gui 
+  573  git status
+  574  ./Build -c
+  575  atp-file find Qt5WidgetsConfig.cmake
+  576  sudo atp-get install atp-file
+  577  sudo apt-get install atp-file
+  578  sudo apt-get install apt-file
+  579  sudo apt-file update
+  580  atp-file find Qt5WidgetsConfig.cmake
+  581  atpfile find Qt5WidgetsConfig.cmake
+  582  apt-f find Qt5WidgetsConfig.cmake
+  583  apt-fILE find Qt5WidgetsConfig.cmake
+  584  apt-file find Qt5WidgetsConfig.cmake
+  585  vi Build 
+  586  man cmake
+  587  cmake --find-package Qt5Widgets
+  588  ./Build -c
+  589  ./Build 
+  590  ls src/qt-gui/resources/img/dialdialog/dial_button_pressed.png
+  591  git mv src/qt-gui/resources/img/dialDialog/ OH#
+  592  set -o vi
+  593  git mv src/qt-gui/resources/img/dialDialog/ src/qt-gui/resources/img/dialdialog/ 
+  594  git status
+  595  git commit 
+  596  ./Build 
+  597  find qrc_rcc.cpp
+  598  find -name qrc_rcc.cpp
+  599  find -name rcc.qrc
+  600  vi ./src/qt-gui/resources/rcc.qrc
+  601  ls src/qt-gui/resources/img/dialdialog/dial_button_pressed.png
+  602  git log -1 --stat
+  603  git st
+  604  git status 
+  605  git reset HEAD^
+  606  git reset --hard 
+  607  git mv src/qt-gui/resources/img/dialDialog/ src/qt-gui/resources/img/dialdialog/ 
+  608  git status 
+  609  git commit -C 1d7013a9bf2edeadc155a8cc28b16ed247293f8a
+  610  ./Build 
+  611  find -iname callinghistorybutton.h
+  612  vi /home/atp/atp-dev/.build/cmake/ui_CallingHistoryDialog.h
+  613  ./Build 
+  614  find -iname CallingHistoryButton.h:
+  615  find -iname CallingHistoryButton.h
+  616  vi ./src/qt-gui/component/CallingHistoryButton.ui
+  617  vi ./src/qt-gui/dialog/CallingHistoryDialog.ui 
+  618  ./Build 
+  619  find -name atp-turret
+  620  vi src/build/cmake/exe/atp-turret.cmake 
+  621  /Build 
+  622  pwd
+  623  ./Build 
+  624  ./Build -tB
+  625  vi Build 
+  626  ./Build -tB
+  627  ./release/bin/atp-turret
+  628  pwd
+  629  find -name *.cpt
+  630  vi ./src/atp/call/DialOut.cpt
+  631  ./Build -tb
+  632  vi src/atp/gui-test.cpt
+  633  ./Build -tb
+  634  touch src/atp/gui-test.cpP
+  635  touch src/atp/gui-test.cpp
+  636  ./Build -tb
+  637  ./Build -tB
+  638  find -name *snake*
+  639  locate ssl-cert-snakeoil.key
+  640  la
+  641  ls
+  642  ./Build -tB
+  643  fg
+  644  history
+

@@ -1,1 +1,2 @@
 sudo mount -t vboxsf VBShare /mnt/share/
+sudo mount -t vboxsf MyWorkspace /mnt/MyWorkspace/
