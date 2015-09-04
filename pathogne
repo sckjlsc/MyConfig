@@ -1,0 +1,154 @@
+1.首先安装插件管理器 Pathogen
+
+Install to ~/.vim/autoload/pathogen.vim
+
+[python] view plaincopy在CODE上查看代码片派生到我的代码片
+mkdir -p ~/.vim/autoload ~/.vim/bundle && \  
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim  
+在Centos家目录中新建.vimrc文件，添加：
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
+详细查看 Pathogen安装文档：https://github.com/tpope/vim-pathogen
+2.安装NERDTREE
+
+要下载安装NERDTree插件，只需要进入到~/.vim/bundle/目录，然后执行以下命令：
+git clone http://github.com/scrooloose/nerdtree.git
+下载完成后，会看到~/.vim/bundle/目录下会多出一个新的目录：nerdtree
+
+而要卸载该插件也非常简单，只需要在~/.vim/bundle/目录下删除nerdtree目录即可，干净利落！
+要更新该插件到最新版本，只需要进入到该目录~/.vim/bundle/nerdtree/，并执行以下命令：
+git pull origin
+
+简单使用方法：
+全局命令
+
+:NERDTree [<start-directory> | <bookmark>]
+打开一个新的 NERDTree 树.
+如果没有参数, 则当前目录为根目录
+如果有起始目录或者书签, 则起始目录或书签为根目录
+:NERDTreeFromBookmark <bookmark>
+以书签位置打开一个新的NERDTree树
+:NERDTreeToggle [<start-directory> | <bookmark>]
+切换NERDTree树
+:NERDTreeMirror
+共享一个已有的NERDTree树
+:NERDTreeClose
+关闭树
+:NERDTreeFind
+在树中查找当前文件
+:NERDTreeCWD
+改变树的根为当前目录
+详细查看：http://www.cnblogs.com/summericeyl/p/3502479.html
+
+3、安装supertab插件
+
+SuperTab插件的作用是使键盘上的Tab键具有更快捷的自动补齐和上下文提示功能。在~/.vim/bundle/目录下下载并安装该插件：
+
+git clone https://github.com/ervandew/supertab.git
+
+安装好之后，就可以在vim中直接使用自动补齐功能了。比如，用vim打开一个.c文件，要声明一个unsigned int 类型的变量，只需要输入unsi，之后按Tab键，就会将该关键字自动补齐了，非常好用。
+
+
+4.安装syntastic
+
+如果你需要使用一种以上的语言进行编程，有时候是非常容易混淆不同语言之间的语法的。幸运的是，syntastic 会帮你检查，然后告诉你是否应该加上圆括号或者方括号，或者告诉你在某个地方，你忘了一个分号。
+cd ~/.vim/bundle && \
+git clone https://github.com/scrooloose/syntastic.git
+启动：:Helptags
+详细安装过程：https://github.com/scrooloose/syntastic
+
+5.安装tagbar
+
+
+tagbar可以做为taglist的替代者，在~/.vim/bundle/目录执行安装命令如下：
+
+git clone https://github.com/majutsushi/tagbar.git  
+
+之后同样可以在vimrc文件中设置快捷键：
+
+[python] view plaincopy在CODE上查看代码片派生到我的代码片
+nmap <F2> :TagbarToggle<CR>  
+let g:tagbar_ctags_bin='/usr/bin/ctags'  
+let g:tagbar_width=30  
+autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()  
+
+在Vim命令行下运行":Tlist"就可以打开Taglist窗口，再次运行":Tlist"则关闭。
+
+左右窗口切换Ctrl+ww
+
+
+在taglist窗口中，可以使用下面的快捷键：
+
+
+<CR>          跳到光标下tag所定义的位置，用鼠标双击此tag功能也一样
+o             在一个新打开的窗口中显示光标下tag
+<Space>       显示光标下tag的原型定义
+u             更新taglist窗口中的tag
+s             更改排序方式，在按名字排序和按出现顺序排序间切换
+x             taglist窗口放大和缩小，方便查看较长的tag
++             打开一个折叠，同zo
+-             将tag折叠起来，同zc
+*             打开所有的折叠，同zR
+=             将所有tag折叠起来，同zM
+[[            跳到前一个文件
+]]            跳到后一个文件
+q             关闭taglist窗口
+<F1>          显示帮助
+
+
+如果鼠标在Vim 里面点击无效，请在~/.vimrc下加入这句话：set mouse=a  " always use mouse
+
+
+
+『常用配置选项』
+
+- Tlist_Ctags_Cmd选项用于指定你的Exuberant ctags程序的位置，如果它没在你PATH变量所定义的路径中，需要使用此选项设置一下；
+
+-如果你不想同时显示多个文件中的tag，设置Tlist_Show_One_File为1。缺省为显示多个文件中的tag；
+
+-设置Tlist_Sort_Type为”name”可以使taglist以tag名字进行排序，缺省是按tag在文件中出现的顺序进行排序。按tag出现的范围（即所属的namespace或class）排序，已经加入taglist的TODO List，但尚未支持；
+
+-如果你在想taglist窗口是最后一个窗口时退出VIM，设置Tlist_Exit_OnlyWindow为１；
+
+-如果你想taglist窗口出现在右侧，设置Tlist_Use_Right_Window为１。缺省显示在左侧。
+
+-在gvim中，如果你想显示taglist菜单，设置Tlist_Show_Menu为１。你可以使用Tlist_Max_Submenu_Items和Tlist_Max_Tag_Length来控制菜单条目数和所显示tag名字的长度；
+
+-缺省情况下，在双击一个tag时，才会跳到该tag定义的位置，如果你想单击tag就跳转，设置Tlist_Use_SingleClick为１；
+
+-如果你想在启动VIM后，自动打开taglist窗口，设置Tlist_Auto_Open为1；
+
+-如果你希望在选择了tag后自动关闭taglist窗口，设置Tlist_Close_On_Select为1；
+
+-当同时显示多个文件中的tag时，设置Tlist_File_Fold_Auto_Close为１，可使taglist只显示当前文件tag，其它文件的tag都被折叠起来。
+
+-在使用:TlistToggle打开taglist窗口时，如果希望输入焦点在taglist窗口中，设置Tlist_GainFocus_On_ToggleOpen为1；
+
+-如果希望taglist始终解析文件中的tag，不管taglist窗口有没有打开，设置Tlist_Process_File_Always为1；
+
+- Tlist_WinHeight和Tlist_WinWidth可以设置taglist窗口的高度和宽度。Tlist_Use_Horiz_Window为１设置taglist窗口横向显示；
+
+
+
+使用方法：在~/.vimrc文件中，用类似上文提到的格式加入要设置的选项。
+
+比如，设置单击tag就跳到tag定义的位置，就在文件中加入这句话：
+
+let Tlist_Use_SingleClick=1  
+
+
+
+
+
+我的.vimrc最终配置如下：
+
+[python] view plaincopy在CODE上查看代码片派生到我的代码片
+execute pathogen#infect()  
+syntax on  
+filetype plugin indent on  
+nmap <F2> :TagbarToggle<CR>  
+let g:tagbar_ctags_bin='/usr/bin/ctags'  
+let g:tagbar_width=30  
+autocmd BufReadPost *.cpp,*.c,*.h,*.hpp,*.cc,*.cxx call tagbar#autoopen()  
+set mouse=a  " always use mouse 
