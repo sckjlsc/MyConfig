@@ -63,3 +63,15 @@ nmap <C-@>e :cs find e <C-R>=expand("<cword>")<CR><CR>
 nmap <C-@>f :cs find f <C-R>=expand("<cfile>")<CR><CR>
 nmap <C-@>i :cs find i ^<C-R>=expand("<cfile>")<CR>$<CR>
 nmap <C-@>d :cs find d <C-R>=expand("<cword>")<CR><CR>
+
+ set rtp+=~/.vim/bundle/Vundle.vim
+ call vundle#begin()
+ Plugin 'VundleVim/Vundle.vim'
+ Plugin 'Valloric/YouCompleteMe'
+ Plugin 'scrooloose/nerdtree'
+ call vundle#end()
+ filetype plugin indent on
+ let g:ycm_use_clangd = 0
+ nnoremap <silent> <F3> :NERDTree<CR>
+ set nu
+ syntax on
